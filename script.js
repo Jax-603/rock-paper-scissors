@@ -1,11 +1,14 @@
+//makes an array of choices to be called on
 const choices =['rock','paper','scissors']
 
+//Get computers choice randomized
 function getComputerChoice()
 {
  const choice = choices[Math.floor(Math.random()*choices.length)]
  return choice; 
 }
 
+//get the players choice 
 function getPlayerChoice()
 {
   let validatedInput = false;
@@ -20,6 +23,7 @@ function getPlayerChoice()
   }
 }
 
+//checks for a winner 
 function checkWinner(playerSelection, computerSelection)
 {
  if (playerSelection == computerSelection) 
@@ -39,7 +43,7 @@ function checkWinner(playerSelection, computerSelection)
    }
 }
 
-
+//See who won the round 
 function playRound(playerSelection,computerSelection)
 {
   const result = checkWinner(playerSelection,computerSelection);
@@ -48,7 +52,7 @@ function playRound(playerSelection,computerSelection)
   else 
   {return 'You lose';}
 }
-
+//initializes game, both start with score of zero, games ends on round 5 
 function game()
 { let playerScore = 0;
   let computerScore = 0;
@@ -77,5 +81,5 @@ function game()
     console.log('Computer Won')
   }
 }
-
+//calls/invokes game function 
 game()
