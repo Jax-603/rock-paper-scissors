@@ -1,85 +1,119 @@
 //makes an array of choices to be called on
 const choices =['rock','paper','scissors']
+const rockButton = document.querySelector('.rock')
+const paperButton = document.querySelector('.paper')
+const scissorsButton = document.querySelector('.scissors')
+const resultsDiv = document.querySelector('.results')
+let playerScore = 0;
+let computerScore = 0;
+let playerScoreP = document.querySelector('.player-score')
+let computerScoreP = document.querySelector('.computer-score')
+
+
 
 //Get computers choice randomized
-function getComputerChoice()
+const getComputerChoice = () =>
 {
  const choice = choices[Math.floor(Math.random()*choices.length)]
  return choice; 
 }
-
-//get the players choice 
-function getPlayerChoice()
-{
-  let validatedInput = false;
-  while (validatedInput == false)
-  {
-    const choice = prompt('rock,paper,scissors');
-    if (choice == null) {continue};
-    const choiceInLower = choice.toLowerCase();
-    if(choices.includes(choiceInLower))
-    validatedInput = true;
-    return choiceInLower;
+//plays the round between human and computer, tells you who won depending on what you pick
+const playRound = (playerSelection, computerSelection) => {
+ if (playerSelection == computerSelection) {
+  const p = document.createElement('p')
+  p.innerText = 'You tied. Both players picked the same thing.'
+  resultsDiv.appendChild(p)
+ }
+  else if(playerSelection == 'rock' && computerSelection == 'scissors') 
+  {playerScore++
+  const p = document.createElement('p')
+  p.innerText = 'You win. Human Player picked rock'
+  resultsDiv.appendChild(p)
   }
-}
-
-//checks for a winner 
-function checkWinner(playerSelection, computerSelection)
-{
- if (playerSelection == computerSelection) 
-  {
-    return "Tie";
-  } 
-  else if(
-  (playerSelection == 'rock' && computerSelection == 'scissors') ||
-  (playerSelection == 'scissor' && computerSelection == 'paper') ||
-  (playerSelection == 'paper' && computerSelection == 'rock'))
-  {
-    return 'Player';
-  }
-   else 
-   {
-    return 'Computer';
-   }
-}
-
-//See who won the round 
-function playRound(playerSelection,computerSelection)
-{
-  const result = checkWinner(playerSelection,computerSelection);
-  if (result=='tie') {return 'Its a tie'}
-  else if (result =='Player') {return 'You Win'}
-  else 
-  {return 'You lose';}
-}
-//initializes game, both start with score of zero, games ends on round 5 
-function game()
-{ let playerScore = 0;
-  let computerScore = 0;
-  console.log('Welcome')
-  for (let i = 0; i < 5; i++)
-
-  {
-    const playerSelection = getPlayerChoice();
-    const computerSelection = getComputerChoice();
-    console.log(playRound(playerSelection,computerSelection));
-    if (checkWinner(playerSelection,computerSelection == 'Player'))
-    {
-    playerScore++;
-   }
-   else if (checkWinner(playerSelection,computerSelection == 'Computer'))
-    computerScore++;
-  }
-  console.log('game over')
-  if (playerScore < computerScore)
-    {
-      console.log('Player Won')
-    }
   else if 
-  (playerScore > computerScore)
+  (playerSelection == 'scissors' && computerSelection == 'paper')
+  {playerScore++
+  const p = document.createElement('p')
+  p.innerText = 'You win. Human Player picked scissors'
+  resultsDiv.appendChild(p)
+  }
+  else if
+  (playerSelection == 'paper' && computerSelection == 'rock')
   {
-    console.log('Computer Won')
+    playerScore++
+     const p = document.createElement('p')
+    p.innerText = 'You win. Human Player picked paper'
+    resultsDiv.appendChild(p)
+  }
+
+  else if(playerSelection == 'rock' && computerSelection == 'paper') 
+    {computerScore++
+    const p = document.createElement('p')
+    p.innerText = 'You lose. Computer Player picked paper'
+    resultsDiv.appendChild(p)
+    }
+    else if 
+    (playerSelection == 'scissors' && computerSelection == 'rock')
+    {computerScore++
+    const p = document.createElement('p')
+    p.innerText = 'You lose. computer Player picked rock'
+    resultsDiv.appendChild(p)
+    }
+    else if
+    (playerSelection == 'paper' && computerSelection == 'scissors')
+    {
+      computerScore++
+       const p = document.createElement('p')
+      p.innerText = 'You lose. computer Player picked scissors'
+      resultsDiv.appendChild(p)
+    }
+}
+// keeps a running score during the game and displays a message whether you won or lost 
+const runningScore = (playerScore,computerScore) =>{
+  if (playerScore == 5){
+    const h2 = document.createElement('h2')
+    h2.innerText = 'Player reached 5 points, You win!'
+    resultsDiv.appendChild(h2)
+  }
+    else if (computerScore == 5){
+   const h2 = document.createElement('h2')
+    h2.innerText = 'computer reached 5 points, You Lose!'
+    resultsDiv.appendChild(h2)
   }
 }
-//calls/invokes game function 
-game()
+
+function updateScores(playerScore,computerScore){
+  playerScoreP.innerText = 'player score:' + playerScore
+  computerScoreP.innerText = 'Computer score:' + computerScore
+
+}
+//event listeners for button clicks and will start the playround, updatescore, and runningscore function 
+rockButton.addEventListener('click', () => {
+  const computerSelection = getComputerChoice()
+  const playerSelection = 'rock'
+  playRound(playerSelection,computerSelection)
+  updateScores(playerScore,computerScore)
+  runningScore(playerScore,computerScore)
+})
+
+paperButton.addEventListener('click', () => {
+  const computerSelection = getComputerChoice()
+  const playerSelection = 'paper'
+  playRound(playerSelection,computerSelection)
+  updateScores(playerScore,computerScore)
+  runningScore(playerScore,computerScore)
+})
+
+scissorsButton.addEventListener('click', () => {
+  const computerSelection = getComputerChoice()
+  const playerSelection = 'scissors'
+  playRound(playerSelection,computerSelection)
+  updateScores(playerScore,computerScore)
+  runningScore(playerScore,computerScore)
+})
+
+
+
+
+
+
